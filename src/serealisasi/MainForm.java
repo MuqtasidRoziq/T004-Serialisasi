@@ -170,36 +170,23 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMasukanDataActionPerformed
 
     private void btnSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSerialActionPerformed
-        FileOutputStream fos;
-        ObjectOutputStream oos;
-        try{
-            fos = new FileOutputStream(new File(path));
-            oos = new ObjectOutputStream(fos);
+        try (FileOutputStream fos = new FileOutputStream(new File(path)); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
             oos.writeObject(username);
-            oos.close();
-            fos.close();
-            lihatSerial();
-        } catch (FileNotFoundException e){
-        } catch (IOException e){
-            JOptionPane.showMessageDialog(this, ex.getMessage);
+            hasilSerial.setText(username.toString()); // tampilkan hasil
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btnSerialActionPerformed
 
     private void btnDeserialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeserialActionPerformed
-        FileInputStream fis;
-        ObjectInputStream ois;
-        try{
-            fis = new FileInputStream(new File(path));
-            ois = new ObjectInputStream(fis);
+        try (FileInputStream fis = new FileInputStream(new File(path)); ObjectInputStream ois = new ObjectInputStream(fis)) {
+
             Object obj = ois.readObject();
             user u2 = (user) obj;
             hasilDeserial.setText(u2.toString());
-            ois.close();
-            fis.close();
-                    
-        }catch (FileNotFoundException e){
-        } catch (IOException e){
-            JOptionPane.showMessageDialog(this, ex.getMessage);
+        } catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }//GEN-LAST:event_btnDeserialActionPerformed
 

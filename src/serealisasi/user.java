@@ -12,14 +12,15 @@ public class user implements Serializable{
         this.password = pass; 
     } 
     
+    public user() {
+        this.username = "";
+        this.password = "";
+    }
      
     public void setItems(List<user> items) { 
         this.items = items; 
     } 
 
-    user() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
  
     @Override 
     public String toString() { 
