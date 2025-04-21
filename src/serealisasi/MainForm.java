@@ -17,11 +17,32 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class MainForm extends javax.swing.JFrame {
     public static user username; 
     private final String path; 
+    
     public MainForm() {
         initComponents();
         username = new user();
         path = System.getProperty("user.dir") + File.separator
                 + "product.ser";
+    }
+    
+    private void lihatSerial(){
+        FileReader fileReader;
+        BufferedReader bufferedReader;
+        StringBuilder stringBuilder = new StringBuilder();
+        try{
+            File file = new File(path);
+            fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+                stringBuilder.append(line).append("\r\n");
+            }
+            bufferedReader.close();
+            fileReader.close();
+        } catch (IOException e){
+            
+        }
+        hasilSerial.setText(stringBuilder.toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -45,10 +66,25 @@ public class MainForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnMasukanData.setText("masukan data");
+        btnMasukanData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMasukanDataActionPerformed(evt);
+            }
+        });
 
         btnSerial.setText("serialisasi");
+        btnSerial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSerialActionPerformed(evt);
+            }
+        });
 
         btnDeserial.setText("deserialisasi");
+        btnDeserial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeserialActionPerformed(evt);
+            }
+        });
 
         jSplitPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jSplitPane1.setOneTouchExpandable(true);
@@ -128,6 +164,45 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMasukanDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasukanDataActionPerformed
+        addUser add = new addUser(this, true);
+        add.setVisible(true);
+    }//GEN-LAST:event_btnMasukanDataActionPerformed
+
+    private void btnSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSerialActionPerformed
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+        try{
+            fos = new FileOutputStream(new File(path));
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(username);
+            oos.close();
+            fos.close();
+            lihatSerial();
+        } catch (FileNotFoundException e){
+        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, ex.getMessage);
+        }
+    }//GEN-LAST:event_btnSerialActionPerformed
+
+    private void btnDeserialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeserialActionPerformed
+        FileInputStream fis;
+        ObjectInputStream ois;
+        try{
+            fis = new FileInputStream(new File(path));
+            ois = new ObjectInputStream(fis);
+            Object obj = ois.readObject();
+            user u2 = (user) obj;
+            hasilDeserial.setText(u2.toString());
+            ois.close();
+            fis.close();
+                    
+        }catch (FileNotFoundException e){
+        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, ex.getMessage);
+        }
+    }//GEN-LAST:event_btnDeserialActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -153,6 +228,11 @@ public class MainForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }catch (ClassNotFoundException | IllegalAccessException | InstantiationException |UnsupportedLookAndFeelException e){
+            
+        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainForm().setVisible(true);

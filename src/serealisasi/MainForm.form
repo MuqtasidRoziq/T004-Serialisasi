@@ -67,16 +67,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="masukan data"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMasukanDataActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSerial">
       <Properties>
         <Property name="text" type="java.lang.String" value="serialisasi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSerialActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnDeserial">
       <Properties>
         <Property name="text" type="java.lang.String" value="deserialisasi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeserialActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JSplitPane" name="jSplitPane1">
       <Properties>
